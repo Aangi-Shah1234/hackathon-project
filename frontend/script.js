@@ -19,13 +19,13 @@ async function sendData(e) {
   };
 
   try {
-    const res = await fetch("http://localhost:5000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+    const res = await fetch("https://hackathon-project-pql8.onrender.com/contact", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
 
     const result = await res.json();
 
