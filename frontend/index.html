@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexCore — Fast. Modern. Tech Solutions.</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── HERO ── */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 5rem; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(200,245,66,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,245,66,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent); pointer-events: none; }
+  .hero-orb { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(200,245,66,0.12), transparent 70%); top: -200px; right: -200px; pointer-events: none; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,245,66,0.1); border: 1px solid rgba(200,245,66,0.25); border-radius: 100px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 2rem; width: fit-content; animation: fadeUp 0.7s ease both; }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em; max-width: 800px; animation: fadeUp 0.7s 0.1s ease both; }
+  .hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px rgba(200,245,66,0.6); }
+  .hero-sub { margin-top: 2rem; font-size: 1.125rem; color: var(--muted); max-width: 480px; font-weight: 300; line-height: 1.7; animation: fadeUp 0.7s 0.2s ease both; }
+  .hero-actions { margin-top: 2.5rem; display: flex; gap: 1rem; align-items: center; animation: fadeUp 0.7s 0.3s ease both; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; animation: fadeUp 0.7s 0.4s ease both; }
+  .stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ── MARQUEE ── */
+  .marquee-section { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 0; overflow: hidden; }
+  .marquee-track { display: flex; gap: 3rem; align-items: center; animation: marquee 20s linear infinite; white-space: nowrap; }
+  .marquee-item { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* ── SERVICES ── */
+  .services { padding: 7rem 3rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .service-card { background: var(--card-bg); padding: 2.5rem; position: relative; overflow: hidden; transition: background 0.3s; cursor: default; }
+  .service-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 0% 100%, rgba(200,245,66,0.06), transparent 60%); opacity: 0; transition: opacity 0.4s; }
+  .service-card:hover { background: #161617; }
+  .service-card:hover::before { opacity: 1; }
+  .service-num { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 2rem; }
+  .service-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(200,245,66,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+  .service-icon svg { width: 22px; height: 22px; }
+  .service-card h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+  .service-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+  .service-tags { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { font-size: 0.72rem; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); color: var(--muted); }
+  .service-arrow { position: absolute; bottom: 2rem; right: 2rem; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(4px); transition: opacity 0.3s, transform 0.3s; }
+  .service-card:hover .service-arrow { opacity: 1; transform: translateY(0); }
+
+  /* ── PROCESS ── */
+  .process { padding: 7rem 3rem; border-top: 1px solid var(--border); }
+  .process-steps { margin-top: 4rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .process-step { position: relative; }
+  .process-step:not(:last-child)::after { content: ''; position: absolute; top: 24px; right: -1rem; width: 2rem; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+  .step-num { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 1.25rem; }
+  .process-step h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+  .process-step p { font-size: 0.85rem; color: var(--muted); font-weight: 300; line-height: 1.65; }
+
+  /* ── CTA ── */
+  .cta-section { margin: 0 3rem 7rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 5rem 4rem; display: flex; align-items: center; justify-content: space-between; gap: 3rem; position: relative; overflow: hidden; }
+  .cta-orb { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(74,245,200,0.08), transparent 70%); right: -100px; top: -100px; pointer-events: none; }
+  .cta-left h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.75rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; max-width: 480px; }
+  .cta-left h2 span { color: var(--accent2); }
+  .cta-left p { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; max-width: 400px; }
+  .cta-right { display: flex; flex-direction: column; gap: 0.75rem; flex-shrink: 0; }
+  .btn-secondary { background: transparent; color: var(--accent2); border: 1px solid rgba(74,245,200,0.3); padding: 0.85rem 2rem; border-radius: 100px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 400; cursor: pointer; transition: background 0.2s; text-align: center; text-decoration: none; display: inline-block; }
+  .btn-secondary:hover { background: rgba(74,245,200,0.06); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Nex<span>Core</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html" class="nav-cta">Get in touch</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-badge"><div class="hero-badge-dot"></div>Now accepting clients — Q3 2025</div>
+  <h1>Fast. Modern.<br><em>Tech</em> Solutions.</h1>
+  <p class="hero-sub">We build high-performance digital products and cloud infrastructure for companies that refuse to settle for ordinary.</p>
+  <div class="hero-actions">
+    <a href="services.html" class="btn-primary">Explore services</a>
+    <a href="about.html" class="btn-ghost">View our work</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">120<span>+</span></div><div class="stat-label">Projects shipped</div></div>
+    <div class="stat-item"><div class="stat-num">98<span>%</span></div><div class="stat-label">Client satisfaction</div></div>
+    <div class="stat-item"><div class="stat-num">6<span>yr</span></div><div class="stat-label">Industry experience</div></div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div>React &amp; Next.js</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>AWS &amp; GCP</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>iOS &amp; Android</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Node.js APIs</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>CI/CD Pipelines</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>TypeScript</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Kubernetes</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>React &amp; Next.js</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>AWS &amp; GCP</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>iOS &amp; Android</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Node.js APIs</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>CI/CD Pipelines</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>TypeScript</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Kubernetes</div>
+  </div>
+</div>
+
+<section class="services">
+  <div class="section-label">What we do</div>
+  <div class="section-title">Services built for<br><em>modern businesses</em></div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c8f542" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <h3>Web Development</h3>
+      <p>Pixel-perfect, blazing-fast web apps built with modern frameworks. From MVPs to enterprise-grade platforms.</p>
+      <div class="service-tags"><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Node.js</span></div>
+      <div class="service-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#c8f542" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c8f542" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <h3>Cloud Deployment</h3>
+      <p>Scalable, resilient cloud infrastructure with zero-downtime deploys. We handle DevOps so you can focus on product.</p>
+      <div class="service-tags"><span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Kubernetes</span></div>
+      <div class="service-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#c8f542" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c8f542" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+      <h3>Mobile Development</h3>
+      <p>Native-quality iOS and Android apps with seamless UX. Built with React Native or Swift/Kotlin for maximum performance.</p>
+      <div class="service-tags"><span class="tag">React Native</span><span class="tag">Swift</span><span class="tag">Kotlin</span></div>
+      <div class="service-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#c8f542" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="section-label">How we work</div>
+  <div class="section-title" style="max-width:100%">From idea to <em>launch</em> in four steps</div>
+  <div class="process-steps">
+    <div class="process-step"><div class="step-num">01</div><h4>Discovery</h4><p>We map out your goals, users, and constraints in a focused kick-off sprint.</p></div>
+    <div class="process-step"><div class="step-num">02</div><h4>Design & Architect</h4><p>Wireframes, tech stack selection, and system design before a single line of code.</p></div>
+    <div class="process-step"><div class="step-num">03</div><h4>Build & Iterate</h4><p>Two-week sprints with demos every cycle. You see progress constantly.</p></div>
+    <div class="process-step"><div class="step-num">04</div><h4>Ship & Scale</h4><p>Staged rollout, monitoring setup, and post-launch support included.</p></div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="cta-orb"></div>
+  <div class="cta-left">
+    <h2>Ready to build something <span>remarkable?</span></h2>
+    <p>Let's talk about your project. No commitment, no fluff — just an honest conversation about what you're building.</p>
+  </div>
+  <div class="cta-right">
+    <a href="contact.html" class="btn-primary" style="text-align:center;">Start a project</a>
+    <a href="contact.html" class="btn-secondary">Schedule a call</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Nex<span>Core</span></div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 NexCore. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
